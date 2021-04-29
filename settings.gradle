@@ -1,0 +1,3 @@
+include 'core', 'web'
+project(':core').name = 'weblogin-core'
+project(':web').name = 'weblogin-web'

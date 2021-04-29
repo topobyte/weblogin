@@ -1,0 +1,37 @@
+plugins {
+    id 'io.franzbecker.gradle-lombok' version '1.14'
+    id 'java'
+}
+
+lombok {
+    version = '1.18.2'
+    sha256 = ""
+}
+
+if (project.hasProperty("topobyte")) {
+    apply from: 'file:///' + System.getProperty("user.home") \
+        + '/.gradle/topobyte.gradle'
+}
+
+dependencies {
+    compile project(':weblogin-core')
+
+    compile 'de.topobyte:luqe-jdbc:0.0.8'
+    compile 'org.apache.shiro:shiro-web:1.4.1'
+}
+
+def pomInfo = new XmlSlurper().parse(new File(projectDir, 'info.pom'));
+
+afterEvaluate { project ->
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                pom.project {
+                    name pomInfo.name
+                    description pomInfo.description
+                    url pomInfo.url
+                }
+            }
+        }
+    }
+}

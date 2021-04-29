@@ -1,0 +1,40 @@
+plugins {
+    id 'io.franzbecker.gradle-lombok' version '1.14'
+    id 'java'
+}
+
+lombok {
+    version = '1.18.2'
+    sha256 = ""
+}
+
+if (project.hasProperty("topobyte")) {
+    apply from: 'file:///' + System.getProperty("user.home") \
+        + '/.gradle/topobyte.gradle'
+}
+
+dependencies {
+    compile 'de.topobyte:jsqltables:0.1.0'
+    compile 'de.topobyte:luqe-core:0.0.6'
+    compile 'de.topobyte:shiro-utils-core:0.0.1'
+    compile 'org.apache.commons:commons-lang3:3.4'
+
+    testCompile 'junit:junit:4.12'
+    testRuntime 'ch.qos.logback:logback-classic:1.2.3'
+}
+
+def pomInfo = new XmlSlurper().parse(new File(projectDir, 'info.pom'));
+
+afterEvaluate { project ->
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                pom.project {
+                    name pomInfo.name
+                    description pomInfo.description
+                    url pomInfo.url
+                }
+            }
+        }
+    }
+}
