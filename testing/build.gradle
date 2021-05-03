@@ -27,7 +27,6 @@ lombok {
 dependencies {
     compile project(':weblogin-pages-bootstrap4')
 
-    compile 'de.topobyte:pagegen-core:1.1.0'
     compile 'de.topobyte:pagegen-bootstrap:1.2.0'
     compile 'de.topobyte:jsoup-flexmark:0.1.0'
     compile 'de.topobyte:jsoup-feather:1.2.0'

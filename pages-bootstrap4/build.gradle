@@ -27,7 +27,7 @@ if (project.hasProperty("topobyte")) {
 dependencies {
     compile project(':weblogin-web')
 
-    compile 'de.topobyte:pagegen-core:1.1.0'
+    compile 'de.topobyte:pagegen-core:1.2.0'
     compile 'de.topobyte:webgun-resolving:1.3.0'
     compile 'de.topobyte:jsoup-bootstrap4:1.1.2'
     compile 'de.topobyte:jsoup-jquery:0.1.0'

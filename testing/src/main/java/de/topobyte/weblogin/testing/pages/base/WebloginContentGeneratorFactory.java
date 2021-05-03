@@ -17,7 +17,7 @@
 
 package de.topobyte.weblogin.testing.pages.base;
 
-import de.topobyte.weblogin.LinkResolverContentGeneratable;
+import de.topobyte.pagegen.core.LinkResolverContentGeneratable;
 import de.topobyte.weblogin.WebloginContentGeneratableFactory;
 import de.topobyte.weblogin.WebloginContentGenerator;
 import de.topobyte.webpaths.WebPath;

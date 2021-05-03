@@ -17,11 +17,13 @@
 
 package de.topobyte.weblogin;
 
+import de.topobyte.pagegen.core.LinkResolverContentGeneratable;
 import de.topobyte.webpaths.WebPath;
 
 public interface WebloginContentGeneratableFactory
 {
 
-	LinkResolverContentGeneratable get(WebPath path, WebloginContentGenerator generator);
+	LinkResolverContentGeneratable get(WebPath path,
+			WebloginContentGenerator generator);
 
 }

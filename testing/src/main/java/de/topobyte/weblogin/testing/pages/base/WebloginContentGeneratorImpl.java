@@ -23,7 +23,7 @@ import java.sql.SQLException;
 import javax.servlet.ServletException;
 
 import de.topobyte.luqe.iface.QueryException;
-import de.topobyte.weblogin.LinkResolverContentGeneratable;
+import de.topobyte.pagegen.core.LinkResolverContentGeneratable;
 import de.topobyte.weblogin.WebloginContentGenerator;
 import de.topobyte.weblogin.testing.Website;
 import de.topobyte.webpaths.WebPath;
