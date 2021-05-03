@@ -1,3 +1,15 @@
+buildscript {
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2/' }
+        maven { url 'https://mvn.topobyte.de' }
+    }
+    dependencies {
+        classpath 'com.craigburke.gradle:client-dependencies:1.4.0'
+        classpath 'de.topobyte:gradle-generate-favicons-plugin:0.0.2'
+        classpath 'de.topobyte:gradle-cache-busting-plugin:0.0.5'
+    }
+}
+
 plugins {
     id 'io.franzbecker.gradle-lombok' version '1.14'
 }
@@ -13,13 +25,12 @@ if (project.hasProperty("topobyte")) {
 }
 
 dependencies {
-    compile 'de.topobyte:jsqltables:0.1.1'
-    compile 'de.topobyte:luqe-core:0.2.1'
-    compile 'de.topobyte:shiro-utils-core:0.0.1'
-    compile 'org.apache.commons:commons-lang3:3.4'
+    compile project(':weblogin-web')
 
-    testCompile 'junit:junit:4.12'
-    testRuntime 'ch.qos.logback:logback-classic:1.2.3'
+    compile 'de.topobyte:pagegen-core:1.1.0'
+    compile 'de.topobyte:webgun-resolving:1.3.0'
+    compile 'de.topobyte:jsoup-bootstrap4:1.1.2'
+    compile 'de.topobyte:jsoup-jquery:0.1.0'
 }
 
 def pomInfo = new XmlSlurper().parse(new File(projectDir, 'info.pom'));

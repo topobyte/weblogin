@@ -1,3 +1,5 @@
-include 'core', 'web'
+include 'core', 'web', 'pages-bootstrap4', 'testing'
 project(':core').name = 'weblogin-core'
 project(':web').name = 'weblogin-web'
+project(':pages-bootstrap4').name = 'weblogin-pages-bootstrap4'
+project(':testing').name = 'weblogin-testing'
