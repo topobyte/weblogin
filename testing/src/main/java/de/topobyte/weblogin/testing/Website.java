@@ -17,6 +17,7 @@
 
 package de.topobyte.weblogin.testing;
 
+import de.topobyte.webgun.util.CacheBuster;
 import de.topobyte.weblogin.WebsiteInfo;
 import lombok.Getter;
 import lombok.Setter;

@@ -64,7 +64,7 @@ public class InitListener implements ServletContextListener
 
 		logger.info("setting up website factories");
 		Website.INSTANCE.setCacheBuster(filename -> {
-			return CacheBusting.resolve(filename);
+			return "/" + CacheBusting.resolve(filename);
 		});
 
 		logger.info("loading configuration...");
