@@ -34,5 +34,9 @@ public class AdminLinkDefs
 			new PathSpec("admin", "set-password"));
 	public static PathDef0 SET_PASSWORD_SUBMIT = new PathDef0(
 			new PathSpec("admin", "set-password-submit"));
+	public static PathDef0 DELETE_USER = new PathDef0(
+			new PathSpec("admin", "delete-user"));
+	public static PathDef0 DELETE_USER_SUBMIT = new PathDef0(
+			new PathSpec("admin", "delete-user-submit"));
 
 }

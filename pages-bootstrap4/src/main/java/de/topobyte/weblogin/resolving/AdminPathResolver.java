@@ -24,6 +24,8 @@ import de.topobyte.weblogin.links.AdminLinkDefs;
 import de.topobyte.weblogin.pages.admin.AddUserGenerator;
 import de.topobyte.weblogin.pages.admin.AddUserSubmitGenerator;
 import de.topobyte.weblogin.pages.admin.AdminGenerator;
+import de.topobyte.weblogin.pages.admin.DeleteUserGenerator;
+import de.topobyte.weblogin.pages.admin.DeleteUserSubmitGenerator;
 import de.topobyte.weblogin.pages.admin.ListUsersGenerator;
 import de.topobyte.weblogin.pages.admin.SetUserPasswordGenerator;
 import de.topobyte.weblogin.pages.admin.SetUserPasswordSubmitGenerator;
@@ -45,7 +47,6 @@ public class AdminPathResolver
 
 		map(AdminLinkDefs.ADD_USER, (path, output, request, data) -> factory
 				.get(path, new AddUserGenerator()));
-
 		map(AdminLinkDefs.ADD_USER_SUBMIT,
 				(path, output, request, data) -> factory.get(path,
 						new AddUserSubmitGenerator(request.getParameterMap())));
@@ -57,10 +58,16 @@ public class AdminPathResolver
 				(path, output, request, data) -> factory.get(path,
 						new SetUserPasswordGenerator(
 								request.getParameterMap())));
-
 		map(AdminLinkDefs.SET_PASSWORD_SUBMIT,
 				(path, output, request, data) -> factory.get(path,
 						new SetUserPasswordSubmitGenerator(
+								request.getParameterMap())));
+
+		map(AdminLinkDefs.DELETE_USER, (path, output, request, data) -> factory
+				.get(path, new DeleteUserGenerator(request.getParameterMap())));
+		map(AdminLinkDefs.DELETE_USER_SUBMIT,
+				(path, output, request, data) -> factory.get(path,
+						new DeleteUserSubmitGenerator(
 								request.getParameterMap())));
 	}
 

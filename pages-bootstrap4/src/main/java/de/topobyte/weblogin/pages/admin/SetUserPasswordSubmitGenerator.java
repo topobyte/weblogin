@@ -75,9 +75,9 @@ public class SetUserPasswordSubmitGenerator implements WebloginContentGenerator
 		AuthInfo authInfo = AuthInfoGenerator.generate(rng, password);
 
 		loginDao.updateLogin(userId, authInfo);
-		content.ac(Bootstrap.alert(ContextualType.SUCCESS)).at("Password set");
-
 		db.getJdbcConnection().commit();
+
+		content.ac(Bootstrap.alert(ContextualType.SUCCESS)).at("Password set");
 	}
 
 }

@@ -22,6 +22,7 @@ import java.util.List;
 
 import de.topobyte.jsqltables.dialect.Dialect;
 import de.topobyte.jsqltables.dialect.SqliteDialect;
+import de.topobyte.jsqltables.query.Delete;
 import de.topobyte.jsqltables.query.Select;
 import de.topobyte.jsqltables.query.Update;
 import de.topobyte.jsqltables.query.order.OrderDirection;
@@ -185,6 +186,29 @@ public class LoginDao
 
 		stmt.execute();
 		stmt.close();
+	}
+
+	public void deleteUser(long id) throws QueryException
+	{
+		Delete deleteUsers = new Delete(LoginTables.USERS);
+		deleteUsers.where(new SingleCondition(null, LoginTables.ID_COLUMN_NAME,
+				Comparison.EQUAL));
+
+		try (IPreparedStatement stmt = connection
+				.prepareStatement(deleteUsers.sql())) {
+			stmt.setLong(1, id);
+			stmt.execute();
+		}
+
+		Delete deleteLogin = new Delete(LoginTables.LOGIN);
+		deleteLogin.where(new SingleCondition(null, LoginTables.ID_COLUMN_NAME,
+				Comparison.EQUAL));
+
+		try (IPreparedStatement stmt = connection
+				.prepareStatement(deleteLogin.sql())) {
+			stmt.setLong(1, id);
+			stmt.execute();
+		}
 	}
 
 	public List<User> getUsers() throws QueryException

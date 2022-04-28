@@ -18,63 +18,44 @@
 package de.topobyte.weblogin.pages.admin;
 
 import java.sql.SQLException;
-import java.util.List;
+import java.util.Map;
 
 import de.topobyte.jsoup.HTML;
-import de.topobyte.jsoup.components.Table;
-import de.topobyte.jsoup.components.TableCell;
-import de.topobyte.jsoup.components.TableHead;
-import de.topobyte.jsoup.components.TableRow;
+import de.topobyte.jsoup.bootstrap4.Bootstrap;
+import de.topobyte.jsoup.bootstrap4.components.ContextualType;
 import de.topobyte.jsoup.nodes.Element;
 import de.topobyte.luqe.iface.QueryException;
 import de.topobyte.luqe.jdbc.database.Database;
 import de.topobyte.pagegen.core.LinkResolver;
+import de.topobyte.webgun.util.ParameterUtil;
 import de.topobyte.weblogin.LoginDao;
 import de.topobyte.weblogin.WebloginContentGenerator;
 import de.topobyte.weblogin.WebsiteInfo;
-import de.topobyte.weblogin.db.model.User;
-import de.topobyte.weblogin.links.AdminLinkDefs;
 
-public class ListUsersGenerator implements WebloginContentGenerator
+public class DeleteUserSubmitGenerator implements WebloginContentGenerator
 {
+
+	private Map<String, String[]> parameters;
+
+	public DeleteUserSubmitGenerator(Map<String, String[]> parameters)
+	{
+		this.parameters = parameters;
+	}
 
 	@Override
 	public void content(WebsiteInfo website, LinkResolver resolver,
 			Element<?> content, Database db, LoginDao loginDao)
 			throws QueryException, SQLException
 	{
-		content.ac(HTML.h1("User list"));
+		content.ac(HTML.h1("Admin area"));
 
-		List<User> users = loginDao.getUsers();
+		String sUserId = ParameterUtil.get(parameters, "user");
+		long userId = Long.parseLong(sUserId);
 
-		Table table = content.ac(HTML.table());
-		table.addClass("table");
+		loginDao.deleteUser(userId);
+		db.getJdbcConnection().commit();
 
-		TableHead head = table.head();
-		TableRow headrow = head.row();
-		headrow.cell("User");
-		headrow.cell("Actions");
-
-		for (int i = 0; i < users.size(); i++) {
-			User user = users.get(i);
-			String oddness = (i % 2) == 0 ? "even" : "odd";
-			TableRow row = table.row();
-			row.addClass(oddness);
-
-			TableCell cell = row.cell();
-			cell.at(String.format("%s (%s)", user.getName(), user.getMail()));
-
-			TableCell cellActions = row.cell();
-			cellActions.ac(HTML.a(
-					String.format("%s?user=%d",
-							AdminLinkDefs.SET_PASSWORD.getLink(), user.getId()),
-					"change password"));
-			cellActions.at(", ");
-			cellActions.ac(HTML.a(
-					String.format("%s?user=%d",
-							AdminLinkDefs.DELETE_USER.getLink(), user.getId()),
-					"delete"));
-		}
+		content.ac(Bootstrap.alert(ContextualType.SUCCESS)).at("User deleted");
 	}
 
 }

@@ -126,11 +126,10 @@ public class AddUserSubmitGenerator implements WebloginContentGenerator
 		AuthInfo authInfo = AuthInfoGenerator.generate(rng, password);
 
 		long id = loginDao.createUser(username, email, authInfo);
+		db.getJdbcConnection().commit();
 
 		p = content.ac(HTML.p());
 		p.at(String.format("Created user with id '%d'", id));
-
-		db.getJdbcConnection().commit();
 	}
 
 }
