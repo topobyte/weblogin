@@ -58,8 +58,7 @@ public class LoginDao
 	private User findUserByStatement(IPreparedStatement stmt)
 			throws QueryException
 	{
-		IResultSet results = stmt.executeQuery();
-		try {
+		try (IResultSet results = stmt.executeQuery()) {
 			if (!results.next()) {
 				return null;
 			}
@@ -67,8 +66,6 @@ public class LoginDao
 			String name = results.getString(2);
 			String mail = results.getString(3);
 			return new User(id, name, mail);
-		} finally {
-			results.close();
 		}
 	}
 
@@ -113,8 +110,7 @@ public class LoginDao
 	private Login findLoginByStatement(IPreparedStatement stmt)
 			throws QueryException
 	{
-		IResultSet results = stmt.executeQuery();
-		try {
+		try (IResultSet results = stmt.executeQuery()) {
 			if (!results.next()) {
 				return null;
 			}
@@ -122,8 +118,6 @@ public class LoginDao
 			String salt = results.getString(2);
 			String pass = results.getString(3);
 			return new Login(id, pass, salt);
-		} finally {
-			results.close();
 		}
 	}
 
@@ -144,27 +138,30 @@ public class LoginDao
 	{
 		QueryBuilder qb = new QueryBuilder(dialect);
 
+		int id = -1;
+
 		String sqlUsers = qb.insert(LoginTables.USERS);
-		IPreparedStatement stmtUsers = connection.prepareStatement(sqlUsers);
+		try (IPreparedStatement stmtUsers = connection
+				.prepareStatement(sqlUsers)) {
 
-		stmtUsers.setString(1, null);
-		stmtUsers.setString(2, name);
-		stmtUsers.setString(3, mail);
+			stmtUsers.setString(1, null);
+			stmtUsers.setString(2, name);
+			stmtUsers.setString(3, mail);
 
-		IResultSet results = stmtUsers.executeQuery();
-		int id = results.getInt(1);
-		results.close();
-		stmtUsers.close();
+			try (IResultSet results = stmtUsers.executeQuery()) {
+				id = results.getInt(1);
+			}
+		}
 
 		String sqlLogin = qb.insert(LoginTables.LOGIN);
-		IPreparedStatement stmtLogin = connection.prepareStatement(sqlLogin);
+		try (IPreparedStatement stmtLogin = connection
+				.prepareStatement(sqlLogin)) {
+			stmtLogin.setLong(1, id);
+			stmtLogin.setString(2, authInfo.getSalt());
+			stmtLogin.setString(3, authInfo.getHash());
 
-		stmtLogin.setLong(1, id);
-		stmtLogin.setString(2, authInfo.getSalt());
-		stmtLogin.setString(3, authInfo.getHash());
-
-		stmtLogin.execute();
-		stmtLogin.close();
+			stmtLogin.execute();
+		}
 
 		return id;
 	}
@@ -179,13 +176,13 @@ public class LoginDao
 
 		String sql = update.sql();
 
-		IPreparedStatement stmt = connection.prepareStatement(sql);
-		stmt.setString(1, authInfo.getSalt());
-		stmt.setString(2, authInfo.getHash());
-		stmt.setLong(3, id);
+		try (IPreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setString(1, authInfo.getSalt());
+			stmt.setString(2, authInfo.getHash());
+			stmt.setLong(3, id);
 
-		stmt.execute();
-		stmt.close();
+			stmt.execute();
+		}
 	}
 
 	public void deleteUser(long id) throws QueryException
@@ -220,16 +217,15 @@ public class LoginDao
 
 		List<User> users = new ArrayList<>();
 
-		IPreparedStatement stmt = connection.prepareStatement(sql);
-		IResultSet results = stmt.executeQuery();
-		while (results.next()) {
-			long id = results.getLong(1);
-			String name = results.getString(2);
-			String mail = results.getString(3);
-			users.add(new User(id, name, mail));
+		try (IPreparedStatement stmt = connection.prepareStatement(sql);
+				IResultSet results = stmt.executeQuery()) {
+			while (results.next()) {
+				long id = results.getLong(1);
+				String name = results.getString(2);
+				String mail = results.getString(3);
+				users.add(new User(id, name, mail));
+			}
 		}
-		results.close();
-		stmt.close();
 
 		return users;
 	}
@@ -244,18 +240,18 @@ public class LoginDao
 
 		User user = null;
 
-		IPreparedStatement stmt = connection.prepareStatement(sql);
-		stmt.setLong(1, userId);
+		try (IPreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setLong(1, userId);
 
-		IResultSet results = stmt.executeQuery();
-		if (results.next()) {
-			long id = results.getLong(1);
-			String name = results.getString(2);
-			String mail = results.getString(3);
-			user = new User(id, name, mail);
+			try (IResultSet results = stmt.executeQuery()) {
+				if (results.next()) {
+					long id = results.getLong(1);
+					String name = results.getString(2);
+					String mail = results.getString(3);
+					user = new User(id, name, mail);
+				}
+			}
 		}
-		results.close();
-		stmt.close();
 
 		return user;
 	}
