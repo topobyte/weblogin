@@ -17,7 +17,6 @@
 
 package de.topobyte.weblogin.testing.shiro;
 
-import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,7 +26,7 @@ import de.topobyte.weblogin.realm.SystemUser;
 public class CustomDbRealm extends DbRealm
 {
 
-	public CustomDbRealm() throws ClassNotFoundException, SQLException
+	public CustomDbRealm()
 	{
 		super();
 	}

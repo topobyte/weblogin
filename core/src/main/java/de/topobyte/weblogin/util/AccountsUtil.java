@@ -17,8 +17,6 @@
 
 package de.topobyte.weblogin.util;
 
-import java.sql.SQLException;
-
 import de.topobyte.luqe.iface.QueryException;
 import de.topobyte.weblogin.LoginDao;
 import de.topobyte.weblogin.db.model.User;
@@ -32,14 +30,14 @@ public class AccountsUtil
 	}
 
 	public static boolean isUsernameTaken(LoginDao dao, String username)
-			throws SQLException, QueryException
+			throws QueryException
 	{
 		User user = dao.findUserByName(username);
 		return user != null;
 	}
 
 	public static boolean isEmailTaken(LoginDao dao, String email)
-			throws SQLException, QueryException
+			throws QueryException
 	{
 		User user = dao.findUserByEmail(email);
 		return user != null;

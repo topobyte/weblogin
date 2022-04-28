@@ -17,7 +17,6 @@
 
 package de.topobyte.weblogin;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +73,7 @@ public class LoginDao
 
 	private IPreparedStatement sUserById;
 
-	public User findUserById(long id) throws SQLException, QueryException
+	public User findUserById(long id) throws QueryException
 	{
 		if (sUserById == null) {
 			String sql = LoginTables.USERS.constructSelectSingleStatement("id");
@@ -86,10 +85,11 @@ public class LoginDao
 
 	private IPreparedStatement sUserByMail;
 
-	public User findUserByEmail(String mail) throws SQLException, QueryException
+	public User findUserByEmail(String mail) throws QueryException
 	{
 		if (sUserByMail == null) {
-			String sql = LoginTables.USERS.constructSelectSingleStatement("mail");
+			String sql = LoginTables.USERS
+					.constructSelectSingleStatement("mail");
 			sUserByMail = connection.prepareStatement(sql);
 		}
 		sUserByMail.setString(1, mail);
@@ -98,10 +98,11 @@ public class LoginDao
 
 	private IPreparedStatement sUserByName;
 
-	public User findUserByName(String name) throws SQLException, QueryException
+	public User findUserByName(String name) throws QueryException
 	{
 		if (sUserByName == null) {
-			String sql = LoginTables.USERS.constructSelectSingleStatement("name");
+			String sql = LoginTables.USERS
+					.constructSelectSingleStatement("name");
 			sUserByName = connection.prepareStatement(sql);
 		}
 		sUserByName.setString(1, name);
@@ -127,7 +128,7 @@ public class LoginDao
 
 	private IPreparedStatement sLoginById;
 
-	public Login findLoginById(long id) throws SQLException, QueryException
+	public Login findLoginById(long id) throws QueryException
 	{
 		if (sLoginById == null) {
 			String sql = LoginTables.LOGIN.constructSelectSingleStatement("id");
@@ -138,7 +139,7 @@ public class LoginDao
 	}
 
 	public long createUser(String name, String mail, AuthInfo authInfo)
-			throws SQLException, QueryException
+			throws QueryException
 	{
 		QueryBuilder qb = new QueryBuilder(dialect);
 

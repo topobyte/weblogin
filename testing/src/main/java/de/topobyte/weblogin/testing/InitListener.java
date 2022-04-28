@@ -17,7 +17,6 @@
 
 package de.topobyte.weblogin.testing;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -85,8 +84,7 @@ public class InitListener implements ServletContextListener
 			DatabaseBuilder databaseBuilder = new DatabaseBuilder(databasePath);
 			try {
 				databaseBuilder.build();
-			} catch (DatabaseBuildingException | SQLException | QueryException
-					| IOException e) {
+			} catch (DatabaseBuildingException | QueryException e) {
 				logger.error("Error while setting up database", e);
 			}
 		}

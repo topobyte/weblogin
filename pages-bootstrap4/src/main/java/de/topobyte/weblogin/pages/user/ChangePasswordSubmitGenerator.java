@@ -99,7 +99,7 @@ public class ChangePasswordSubmitGenerator implements WebloginContentGenerator
 		Login login;
 		try {
 			login = loginDao.findLoginById(user.getId());
-		} catch (SQLException | QueryException e) {
+		} catch (QueryException e) {
 			content.ac(new Alert(ContextualType.DANGER,
 					"Something went wrong while looking for login data!"));
 			logger.error(String.format(

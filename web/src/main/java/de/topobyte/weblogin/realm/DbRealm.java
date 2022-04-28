@@ -17,7 +17,6 @@
 
 package de.topobyte.weblogin.realm;
 
-import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -55,7 +54,7 @@ public class DbRealm extends AuthorizingRealm
 
 	private static final String REALM_NAME = "database";
 
-	public DbRealm() throws ClassNotFoundException, SQLException
+	public DbRealm()
 	{
 		logger.info("Initalizing db realm");
 	}

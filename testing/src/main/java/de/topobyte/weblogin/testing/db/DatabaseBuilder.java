@@ -17,7 +17,6 @@
 
 package de.topobyte.weblogin.testing.db;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -56,8 +55,7 @@ public class DatabaseBuilder
 		this.pathDatabase = pathDatabase;
 	}
 
-	public void build() throws DatabaseBuildingException, SQLException,
-			QueryException, IOException
+	public void build() throws DatabaseBuildingException, QueryException
 	{
 		logger.info("loading driver");
 		loadDriver();
@@ -83,7 +81,7 @@ public class DatabaseBuilder
 		}
 	}
 
-	private void initSchema() throws QueryException
+	private void initSchema()
 	{
 		createTables(database);
 	}
@@ -116,12 +114,12 @@ public class DatabaseBuilder
 		}
 	}
 
-	private void initDao() throws QueryException
+	private void initDao()
 	{
 		dao = new LoginDao(database.getConnection());
 	}
 
-	private void insertData() throws IOException, QueryException, SQLException
+	private void insertData() throws QueryException
 	{
 		RandomNumberGenerator rng = new SecureRandomNumberGenerator();
 		for (TestUser user : TestData.getUsers()) {
